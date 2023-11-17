@@ -1,13 +1,16 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 import configparser
-from urllib.parse import quote
+import os
 
 
 def test_dw_connection():
     try:
+        script_directory = os.path.dirname(os.path.abspath(__file__))
+        pyconf_dir = os.path.join(script_directory, "..")
+        pyconf_dir = f"{pyconf_dir}/pyconf.ini"
         config = configparser.ConfigParser()
-        config.read("pyconf.ini")
+        config.read(pyconf_dir)
         server = config['DATABASE']['server']
         port = config['DATABASE']['port']
         username = config['DATABASE']['username']
