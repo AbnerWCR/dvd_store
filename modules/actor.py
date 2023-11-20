@@ -79,7 +79,6 @@ class Actor:
                     dim_actor.create_dim_from_stg(stg)
                     session.add(dim_actor)
                     session.commit()
-
             except Exception as ex:
                 logging.error(ex)
                 session.rollback()
