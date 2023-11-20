@@ -22,7 +22,7 @@ class Country:
 
                 for index, row in df.iterrows():
                     stg_country = StgCountry(bk=row['country_id'],
-                                             country=row['country'],)
+                                             country=row['country'], )
 
                     stg_country.format_stg_country()
                     session.add(stg_country)
@@ -44,6 +44,19 @@ class Country:
                 logging.error(ex)
                 session.rollback()
         return dim
+
+    @classmethod
+    def find_coutry_from_bk(cls, bk: int) -> DimCountry:
+        engine, session_context = get_connection()
+
+        dim_item: DimCountry = None
+        with session_context() as session:
+            try:
+                dim_item = session.query(DimCountry).filter_by(bk=bk).first()
+            except Exception as ex:
+                logging.error(ex)
+                session.rollback()
+        return dim_item
 
     @classmethod
     def load_dim(cls) -> pd.DataFrame:

@@ -34,3 +34,24 @@ def create_tables():
         logging.error(ex)
     except Exception as e:
         logging.error(e)
+
+
+def set_default_invalid_data():
+    import models.dim.dim_actor
+    import models.dim.dim_address
+    import models.dim.dim_category
+    import models.dim.dim_city
+    import models.dim.dim_costumer
+    import models.dim.dim_country
+    import models.dim.dim_film
+    import models.dim.dim_language
+    import models.dim.dim_store
+
+    engine, session_context = get_connection()
+    with session_context() as session:
+        try:
+            session.add()
+        except ExceptionContext as ex:
+            logging.error(ex)
+        except Exception as e:
+            logging.error(e)
