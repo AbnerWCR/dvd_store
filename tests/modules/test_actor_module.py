@@ -27,8 +27,10 @@ def test_change_dim_actor():
 
     with session_context() as session:
         result = session.query(StgActor).filter_by(bk=-10).first()
-        session.delete(result)
-        session.commit()
+
+        if result is not None:
+            session.delete(result)
+            session.commit()
 
         stg = StgActor(bk=-10, first_name="invalidd", last_name="test")
         session.add(stg)
