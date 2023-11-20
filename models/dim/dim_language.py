@@ -1,11 +1,9 @@
 from sqlalchemy import Column, Integer, DateTime, Boolean, String, Sequence
-from sqlalchemy.ext.declarative import declarative_base
-from models.stg_language import StgLanguage
-
-Base = declarative_base()
+from models.base_model import BaseModel
+from models.stg.stg_language import StgLanguage
 
 
-class DimLanguage(Base):
+class DimLanguage(BaseModel):
     __tablename__ = "language"
     __table_args__ = {"schema": "dim"}
 

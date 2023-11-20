@@ -1,11 +1,9 @@
 from sqlalchemy import Column, Integer, DateTime, Boolean, String, Sequence
-from sqlalchemy.ext.declarative import declarative_base
-from models.stg_category import StgCategory
-
-Base = declarative_base()
+from models.base_model import BaseModel
+from models.stg.stg_category import StgCategory
 
 
-class DimCategory(Base):
+class DimCategory(BaseModel):
     __tablename__ = "category"
     __table_args__ = {"schema": "dim"}
 

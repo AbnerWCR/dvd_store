@@ -1,10 +1,8 @@
 from sqlalchemy import Column, Integer, DateTime, Boolean, String, Sequence
-from sqlalchemy.ext.declarative import declarative_base
-
-Base = declarative_base()
+from models.base_model import BaseModel
 
 
-class DimStore(Base):
+class DimStore(BaseModel):
     __tablename__ = "store"
     __table_args__ = {"schema": "dim"}
 

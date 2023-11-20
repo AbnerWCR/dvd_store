@@ -1,10 +1,8 @@
 from sqlalchemy import Column, Integer, DateTime, Boolean, String, SmallInteger, Sequence, DECIMAL
-from sqlalchemy.ext.declarative import declarative_base
-
-Base = declarative_base()
+from models.base_model import BaseModel
 
 
-class DimFilm(Base):
+class DimFilm(BaseModel):
     __tablename__ = "film"
     __table_args__ = {"schema": "dim"}
 

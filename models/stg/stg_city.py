@@ -1,10 +1,8 @@
 from sqlalchemy import Column, Integer, DateTime, Boolean, String
-from sqlalchemy.ext.declarative import declarative_base
-
-Base = declarative_base()
+from models.base_model import BaseModel
 
 
-class StgCity(Base):
+class StgCity(BaseModel):
     __tablename__ = "s_city"
     __table_args__ = {"schema": "stg"}
 

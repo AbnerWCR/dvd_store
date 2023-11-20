@@ -1,12 +1,10 @@
 from sqlalchemy import Column, Integer, DateTime, Boolean, String, Sequence
-from sqlalchemy.ext.declarative import declarative_base
-
-Base = declarative_base()
+from models.base_model import BaseModel
 
 
-class DimCity(Base):
-    __tablename__ = "s_city"
-    __table_args__ = {"schema": "stg"}
+class DimCity(BaseModel):
+    __tablename__ = "city"
+    __table_args__ = {"schema": "dim"}
 
     sk = Column("sk", Integer, Sequence("sk_city", start=1), autoincrement=True, primary_key=True)
     bk = Column("bk", Integer, nullable=False)

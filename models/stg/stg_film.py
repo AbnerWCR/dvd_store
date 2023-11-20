@@ -1,10 +1,8 @@
 from sqlalchemy import Column, Integer, DateTime, Boolean, String, SmallInteger, Float, Double, DECIMAL
-from sqlalchemy.ext.declarative import declarative_base
-
-Base = declarative_base()
+from models.base_model import BaseModel
 
 
-class StgFilm(Base):
+class StgFilm(BaseModel):
     __tablename__ = "s_film"
     __table_args__ = {"schema": "stg"}
 

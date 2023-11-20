@@ -1,10 +1,8 @@
 from sqlalchemy import Column, Integer, DateTime, Boolean, String
-from sqlalchemy.ext.declarative import declarative_base
-
-Base = declarative_base()
+from models.base_model import BaseModel
 
 
-class StgCategory(Base):
+class StgCategory(BaseModel):
     __tablename__ = "s_category"
     __table_args__ = {"schema": "stg"}
 

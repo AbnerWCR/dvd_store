@@ -1,11 +1,9 @@
 from sqlalchemy import Column, Integer, DateTime, Boolean, String, Sequence
-from sqlalchemy.ext.declarative import declarative_base
-from models.stg_country import StgCountry
-
-Base = declarative_base()
+from models.base_model import BaseModel
+from models.stg.stg_country import StgCountry
 
 
-class DimCountry(Base):
+class DimCountry(BaseModel):
     __tablename__ = "country"
     __table_args__ = {"schema": "dim"}
 

@@ -1,11 +1,9 @@
 from sqlalchemy import Column, Integer, Boolean, DateTime, PrimaryKeyConstraint, String, Sequence
-from sqlalchemy.ext.declarative import declarative_base
-from models.stg_actor import StgActor
-
-Base = declarative_base()
+from models.base_model import BaseModel
+from models.stg.stg_actor import StgActor
 
 
-class DimActor(Base):
+class DimActor(BaseModel):
     __tablename__ = "actor"
     __table_args__ = {"schema": "dim"}
 
