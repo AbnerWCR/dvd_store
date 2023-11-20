@@ -9,10 +9,10 @@ class StgActor(Base):
     __table_args__ = {"schema": "stg"}
 
     bk = Column("bk", Integer, primary_key=True)
-    first_name = Column("first_name", String(50))
-    last_name = Column("last_name", String(50))
+    first_name = Column("first_name", String(50), nullable=False)
+    last_name = Column("last_name", String(50), nullable=False)
 
-    def format_stg(self) -> None:
+    def format_stg_actor(self) -> None:
         if self.first_name is not None:
             self.first_name = self.first_name.lower()
 

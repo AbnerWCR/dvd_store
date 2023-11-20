@@ -11,7 +11,7 @@ class DimActor(Base):
 
     sk = Column("sk", Integer, Sequence("sk_actor", start=1), primary_key=True, autoincrement=True)
     bk = Column("bk", Integer, nullable=False)
-    full_name = Column("full_name", String(101))
+    full_name = Column("full_name", String(101), nullable=False)
 
     def create_dim_from_stg(self, stg: StgActor) -> None:
         self.bk = stg.bk
