@@ -19,5 +19,5 @@ def get_connection():
 
     connection_string = f"postgresql://{username}:{password}@{server}:{port}/{database}"
     engine: create_engine = create_engine(connection_string)
-    session_local = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-    return engine, session_local
+    session_context = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+    return engine, session_context
