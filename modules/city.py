@@ -91,3 +91,16 @@ class City:
                 logging.error(ex)
                 session.rollback()
         return df
+
+    @classmethod
+    def find_city_from_bk(cls, bk: int) -> DimCity:
+        engine, session_context = get_connection()
+
+        dim_item: DimCity = None
+        with session_context() as session:
+            try:
+                dim_item = session.query(DimCity).filter_by(bk=bk).first()
+            except Exception as ex:
+                logging.error(ex)
+                session.rollback()
+        return dim_item
