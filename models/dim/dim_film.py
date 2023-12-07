@@ -20,5 +20,20 @@ class DimFilm(BaseModel):
     actor_sk = Column("actor_sk", Integer, nullable=False)
     category_sk = Column("category_sk", Integer, nullable=False)
 
+    def __init__(self, bk, title, release_year, language_sk, original_language_sk, rental_duration,
+                 rental_rate, length, replacement_cost, actor_sk, category_sk, rating=None):
+        self.bk = bk
+        self.title = title.capitalize()
+        self.release_year = release_year
+        self.language_sk = language_sk
+        self.original_language_sk = original_language_sk
+        self.rental_duration = rental_duration
+        self.rental_rate = rental_rate
+        self.length = length
+        self.replacement_cost = replacement_cost
+        self.actor_sk = actor_sk
+        self.category_sk = category_sk
+        self.rating = rating
+
     def format_film(self) -> None:
         self.title = self.title.capitalize()

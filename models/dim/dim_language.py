@@ -11,6 +11,5 @@ class DimLanguage(BaseModel):
     bk = Column("bk", Integer, nullable=False)
     name = Column("name", String(20), nullable=False)
 
-    def create_dim_from_stg(self, stg: StgLanguage):
-        self.bk = stg.bk
-        self.name = stg.name.capitalize()
+    def format_language(self):
+        self.name = self.name.capitalize()
