@@ -65,3 +65,5 @@ def test_change_dim_address():
         assert new_dim.address2 == "Invalid2"
         assert new_dim.district == "Invalid"
 
+        session.delete(new_dim)
+        session.commit()

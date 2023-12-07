@@ -57,3 +57,5 @@ def test_change_dim_country():
         new_dim = session.query(DimCountry).filter_by(bk=-10).first()
         assert new_dim.country == "Invalid"
 
+        session.delete(new_dim)
+        session.commit()

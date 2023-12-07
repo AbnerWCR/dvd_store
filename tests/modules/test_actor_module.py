@@ -59,3 +59,5 @@ def test_change_dim_actor():
         new_dim = session.query(DimActor).filter_by(bk=-10).first()
         assert new_dim.full_name == "Invalid Test"
 
+        session.delete(new_dim)
+        session.commit()

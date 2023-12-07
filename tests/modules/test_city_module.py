@@ -57,3 +57,5 @@ def test_change_dim_city():
         new_dim = session.query(DimCity).filter_by(bk=-10).first()
         assert new_dim.city == "Invalid"
 
+        session.delete(new_dim)
+        session.commit()

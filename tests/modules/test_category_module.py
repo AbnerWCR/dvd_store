@@ -57,3 +57,5 @@ def test_change_dim_category():
         new_dim = session.query(DimCategory).filter_by(bk=-10).first()
         assert new_dim.name == "Invalid"
 
+        session.delete(new_dim)
+        session.commit()

@@ -5,9 +5,23 @@ from sqlalchemy import text, insert
 from infra.db_connection import get_connection
 from models.stg.stg_actor import StgActor
 from models.dim.dim_actor import DimActor
+from modules.base_module import IBaseModule
 
 
-class Actor:
+class Actor(IBaseModule):
+
+    @classmethod
+    def find_item_by_bk(cls, bk) -> DimActor:
+        engine, session_context = get_connection()
+
+        dim_item: DimActor = None
+        with session_context() as session:
+            try:
+                dim_item = session.query(DimActor).filter_by(bk=bk).first()
+            except Exception as ex:
+                logging.error(ex)
+                session.rollback()
+        return dim_item
 
     @classmethod
     def load_stg(cls) -> pd.DataFrame:
