@@ -22,7 +22,7 @@ def test_store_load_dim_with_new_data():
     assert not df.empty
 
 
-def test_change_dim_category():
+def test_change_dim_store():
     engine, session_context = get_connection()
 
     with session_context() as session:

@@ -2,8 +2,8 @@ from sqlalchemy import Column, Integer, DateTime, Boolean, String
 from models.base_model import BaseModel
 
 
-class StgCostumer(BaseModel):
-    __tablename__ = "s_costumer"
+class StgCustomer(BaseModel):
+    __tablename__ = "s_customer"
     __table_args__ = {"schema": "stg"}
 
     bk = Column("bk", Integer, primary_key=True)
@@ -12,6 +12,7 @@ class StgCostumer(BaseModel):
     email = Column("email", String(150), nullable=False)
     address_bk = Column("address_bk", Integer, nullable=False)
     active = Column("active", Boolean)
+    store_bk = Column("store_bk", Integer, nullable=False)
 
     def format_stg_costumer(self) -> None:
         self.first_name = self.first_name.lower()
