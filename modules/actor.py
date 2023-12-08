@@ -30,6 +30,9 @@ class Actor(IBaseModule):
         df = pd.DataFrame()
         with session_context() as session:
             try:
+                session.query(StgActor).delete()
+                session.commit()
+
                 result = session.execute(text(f"""select * from public.actor"""))
                 df = pd.DataFrame(result.fetchall())
                 df.columns = result.keys()

@@ -17,6 +17,9 @@ class Language(IBaseModule):
         df = pd.DataFrame()
         with session_context() as session:
             try:
+                session.query(StgLanguage).delete()
+                session.commit()
+
                 result = session.execute(text(f"""select * from public.language"""))
                 df = pd.DataFrame(result.fetchall())
                 df.columns = result.keys()

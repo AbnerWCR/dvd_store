@@ -16,6 +16,9 @@ class Country:
         df = pd.DataFrame()
         with session_context() as session:
             try:
+                session.query(StgCountry).delete()
+                session.commit()
+
                 result = session.execute(text(f"""select * from public.country"""))
                 df = pd.DataFrame(result.fetchall())
                 df.columns = result.keys()

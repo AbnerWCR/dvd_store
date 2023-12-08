@@ -30,6 +30,9 @@ class Address(IBaseModule):
         df = pd.DataFrame()
         with session_context() as session:
             try:
+                session.query(StgAddress).delete()
+                session.commit()
+
                 result = session.execute(text("select * from public.address"))
                 df = pd.DataFrame(result.fetchall())
                 df.columns = result.keys()

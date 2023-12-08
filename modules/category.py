@@ -16,6 +16,9 @@ class Category:
         df = pd.DataFrame()
         with session_context() as session:
             try:
+                session.query(StgCategory).delete()
+                session.commit()
+
                 result = session.execute(text(f"""select * from public.category"""))
                 df = pd.DataFrame(result.fetchall())
                 df.columns = result.keys()

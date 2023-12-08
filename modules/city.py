@@ -19,6 +19,9 @@ class City:
         df = pd.DataFrame()
         with session_context() as session:
             try:
+                session.query(StgCity).delete()
+                session.commit()
+
                 result = session.execute(text(f"""select * from public.city"""))
                 df = pd.DataFrame(result.fetchall())
                 df.columns = result.keys()
