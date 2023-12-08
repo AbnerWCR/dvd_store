@@ -1,5 +1,5 @@
 import logging
-
+from modules.base_module import IBaseModule
 import pandas as pd
 from sqlalchemy import text, insert
 from infra.db_connection import get_connection
@@ -7,7 +7,20 @@ from models.stg.stg_category import StgCategory
 from models.dim.dim_category import DimCategory
 
 
-class Category:
+class Category(IBaseModule):
+
+    @classmethod
+    def find_item_by_bk(cls, bk) -> DimCategory:
+        engine, session_context = get_connection()
+
+        dim_item: DimCategory = None
+        with session_context() as session:
+            try:
+                dim_item = session.query(DimCategory).filter_by(bk=bk).first()
+            except Exception as ex:
+                logging.error(ex)
+                session.rollback()
+        return dim_item
 
     @classmethod
     def load_stg(cls) -> pd.DataFrame:

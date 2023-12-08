@@ -1,5 +1,5 @@
 import logging
-
+from modules.base_module import IBaseModule
 import pandas as pd
 from sqlalchemy import text, insert
 from infra.db_connection import get_connection
@@ -8,9 +8,20 @@ from models.dim.dim_city import DimCity
 from modules.country import Country
 
 
-class City:
+class City(IBaseModule):
 
-    INVALID_DATA: int = -1
+    @classmethod
+    def find_item_by_bk(cls, bk) -> DimCity:
+        engine, session_context = get_connection()
+
+        dim_item: DimCity = None
+        with session_context() as session:
+            try:
+                dim_item = session.query(DimCity).filter_by(bk=bk).first()
+            except Exception as ex:
+                logging.error(ex)
+                session.rollback()
+        return dim_item
 
     @classmethod
     def load_stg(cls) -> pd.DataFrame:
@@ -71,7 +82,7 @@ class City:
 
                 country = Country()
                 for stg in result_update:
-                    dim_country = country.find_coutry_from_bk(stg.country_bk)
+                    dim_country = country.find_item_by_bk(stg.country_bk)
 
                     upd_city = session.query(DimCity).filter_by(bk=stg.bk).first()
                     upd_city.city = stg.city
@@ -81,7 +92,7 @@ class City:
                     del upd_city
 
                 for stg in result_insert:
-                    dim_country = country.find_coutry_from_bk(stg.country_bk)
+                    dim_country = country.find_item_by_bk(stg.country_bk)
                     country_sk = dim_country.sk if dim_country is not None else cls.INVALID_DATA
 
                     dim_city = DimCity(bk=stg.bk,
@@ -94,16 +105,3 @@ class City:
                 logging.error(ex)
                 session.rollback()
         return df
-
-    @classmethod
-    def find_city_from_bk(cls, bk: int) -> DimCity:
-        engine, session_context = get_connection()
-
-        dim_item: DimCity = None
-        with session_context() as session:
-            try:
-                dim_item = session.query(DimCity).filter_by(bk=bk).first()
-            except Exception as ex:
-                logging.error(ex)
-                session.rollback()
-        return dim_item

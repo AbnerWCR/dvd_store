@@ -1,5 +1,5 @@
 import logging
-
+from modules.base_module import IBaseModule
 import pandas as pd
 from sqlalchemy import text, insert
 from infra.db_connection import get_connection
@@ -7,7 +7,7 @@ from models.stg.stg_country import StgCountry
 from models.dim.dim_country import DimCountry
 
 
-class Country:
+class Country(IBaseModule):
 
     @classmethod
     def load_stg(cls) -> pd.DataFrame:
@@ -49,7 +49,7 @@ class Country:
         return dim
 
     @classmethod
-    def find_coutry_from_bk(cls, bk: int) -> DimCountry:
+    def find_item_by_bk(cls, bk: int) -> DimCountry:
         engine, session_context = get_connection()
 
         dim_item: DimCountry = None
