@@ -1,5 +1,5 @@
 import logging
-
+from modules.base_module import IBaseModule
 import pandas as pd
 from sqlalchemy import text, insert
 from infra.db_connection import get_connection
@@ -8,8 +8,20 @@ from models.dim.dim_address import DimAddress
 from modules.city import City
 
 
-class Address:
-    INVALID_DATA: int = 1
+class Address(IBaseModule):
+
+    @classmethod
+    def find_item_by_bk(cls, bk) -> DimAddress:
+        engine, session_context = get_connection()
+
+        dim_item: DimAddress = None
+        with session_context() as session:
+            try:
+                dim_item = session.query(DimAddress).filter_by(bk=bk).first()
+            except Exception as ex:
+                logging.error(ex)
+                session.rollback()
+        return dim_item
 
     @classmethod
     def load_stg(cls) -> pd.DataFrame:

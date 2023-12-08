@@ -9,7 +9,8 @@ class DimStore(BaseModel):
     sk = Column("sk", Integer, Sequence("sk_store", start=1), autoincrement=True, primary_key=True)
     bk = Column("bk", Integer, nullable=False)
     manager = Column("manager", String(100), nullable=False)
-    address_bk = Column("address_bk", Integer, nullable=False)
+    address_sk = Column("address_sk", Integer, nullable=False)
 
     def format_store(self) -> None:
-        self.manager = self.manager.capitalize()
+        temp_manager = self.manager.split(" ")
+        self.manager = f"{temp_manager[0].capitalize()} {temp_manager[1].capitalize()}"

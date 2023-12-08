@@ -14,8 +14,8 @@ def test_create_tables():
     import models.dim.dim_category
     import models.stg.stg_city
     import models.dim.dim_city
-    import models.stg.stg_costumer
-    import models.dim.dim_costumer
+    import models.stg.stg_customer
+    import models.dim.dim_customer
     import models.stg.stg_country
     import models.dim.dim_country
     import models.stg.stg_film
