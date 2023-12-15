@@ -28,6 +28,7 @@ def create_tables():
         import models.dim.dim_language
         import models.stg.stg_store
         import models.dim.dim_store
+        import models.fact.fact_payment
 
         Base.metadata.create_all(engine)
     except ExceptionContext as ex:
@@ -41,11 +42,12 @@ def set_default_invalid_data():
     import models.dim.dim_address
     import models.dim.dim_category
     import models.dim.dim_city
-    import models.dim.dim_costumer
+    import models.dim.dim_customer
     import models.dim.dim_country
     import models.dim.dim_film
     import models.dim.dim_language
     import models.dim.dim_store
+    import models.fact.fact_payment
 
     engine, session_context = get_connection()
     with session_context() as session:

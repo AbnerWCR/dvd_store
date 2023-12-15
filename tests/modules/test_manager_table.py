@@ -23,7 +23,7 @@ def test_create_tables():
     import models.stg.stg_language
     import models.dim.dim_language
     import models.stg.stg_store
-    import models.dim.dim_store
+    import models.fact.fact_payment
 
     Base.metadata.create_all(engine)
     assert True
