@@ -66,6 +66,14 @@ class Payment:
         df: pd.DataFrame = None
         with session_context() as session:
             try:
+                result_dim_time = session.execute(text("select * from dim.time"))
+                df_time = pd.DataFrame(result_dim_time)
+                df_time.columns = result_dim_time.keys()
+                df_time.rename(columns={
+                    'index': 'sk_time',
+                }, errors='raise', inplace=True)
+                df_time['Date'] = df_time['Date'].apply(lambda x: x.date())
+
                 result = session.execute(text("""select
                                                     pay.payment_bk as bk,
                                                     pay.payment_date,
@@ -92,7 +100,36 @@ class Payment:
                 df['customer_sk'] = df['customer_sk'].astype('Int64')
                 df['customer_sk'] = df['customer_sk'].fillna(-1)
 
-                df.to_sql('payment', con=engine, schema='fact', index=False, if_exists='append')
+                df['payment_date'] = df['payment_date'].apply(lambda x: x.date())
+                df['rental_date'] = df['rental_date'].apply(lambda x: x.date())
+                df['return_date'] = df['return_date'].apply(lambda x: x.date())
+
+                df_result = df.merge(df_time,
+                                     left_on='payment_date',
+                                     right_on='Date',
+                                     how='left',
+                                     suffixes=('', '_r_pay')).merge(df_time,
+                                                                    left_on='rental_date',
+                                                                    right_on='Date',
+                                                                    how='left',
+                                                                    suffixes=('', '_r_rental')).merge(df_time,
+                                                                                                      left_on='return_date',
+                                                                                                      right_on='Date',
+                                                                                                      how='left',
+                                                                                                      suffixes=(
+                                                                                                      '', '_r_return'))
+
+                df_result = df_result[['bk', 'payment_date', 'customer_sk', 'staff', 'amount', 'rental_staff',
+                                       'rental_date', 'return_date', 'sk', 'sk_time', 'sk_time_r_rental',
+                                       'sk_time_r_return']]
+
+                df_result.rename(columns={
+                    'sk_time': 'sk_payment_date',
+                    'sk_time_r_rental': 'sk_rental_date',
+                    'sk_time_r_return': 'sk_return_date'
+                }, errors='raise', inplace=True)
+
+                df_result.to_sql('payment', con=engine, schema='fact', index=False, if_exists='append')
 
             except Exception as ex:
                 logging.error(ex)
