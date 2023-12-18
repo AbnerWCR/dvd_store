@@ -24,7 +24,7 @@ class City(IBaseModule):
         return dim_item
 
     @classmethod
-    def load_stg(cls) -> pd.DataFrame:
+    def load_stg(cls) -> pd.DataFrame | None:
         engine, session_context = get_connection()
 
         df = pd.DataFrame()
@@ -48,6 +48,7 @@ class City(IBaseModule):
             except Exception as ex:
                 logging.error(ex)
                 session.rollback()
+                return None
         return df
 
     @classmethod
@@ -64,7 +65,7 @@ class City(IBaseModule):
         return dim
 
     @classmethod
-    def load_dim(cls) -> pd.DataFrame:
+    def load_dim(cls) -> pd.DataFrame | None:
         list_dim_city = cls.load_dim_from_db()
 
         engine, session_context = get_connection()
@@ -104,4 +105,5 @@ class City(IBaseModule):
             except Exception as ex:
                 logging.error(ex)
                 session.rollback()
+                return None
         return df

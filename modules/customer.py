@@ -13,7 +13,7 @@ import logging
 class Customer(IBaseModule):
 
     @classmethod
-    def load_stg(cls) -> pd.DataFrame:
+    def load_stg(cls) -> pd.DataFrame | None:
         engine, session_context = get_connection()
         df_final = pd.DataFrame()
 
@@ -41,9 +41,11 @@ class Customer(IBaseModule):
             except SQLAlchemyError as sql_ex:
                 logging.error(sql_ex)
                 session.rollback()
+                return None
             except Exception as ex:
                 logging.error(ex)
                 session.rollback()
+                return None
         return df_final
 
     @classmethod
@@ -104,7 +106,7 @@ class Customer(IBaseModule):
         return store_sk, address_sk
     
     @classmethod
-    def load_dim(cls) -> pd.DataFrame:
+    def load_dim(cls) -> pd.DataFrame | None:
         list_dim_customer = cls.load_dim_from_db()
 
         engine, session_context = get_connection()
@@ -146,8 +148,10 @@ class Customer(IBaseModule):
             except SQLAlchemyError as sql_ex:
                 logging.error(sql_ex)
                 session.rollback()
+                return None
             except Exception as ex:
                 logging.error(ex)
                 session.rollback()
+                return None
         return df
     

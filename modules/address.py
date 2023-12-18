@@ -1,4 +1,7 @@
 import logging
+
+from sqlalchemy.exc import SQLAlchemyError
+
 from modules.base_module import IBaseModule
 import pandas as pd
 from sqlalchemy import text, insert
@@ -24,7 +27,7 @@ class Address(IBaseModule):
         return dim_item
 
     @classmethod
-    def load_stg(cls) -> pd.DataFrame:
+    def load_stg(cls) -> pd.DataFrame | None:
         engine, session_context = get_connection()
 
         df = pd.DataFrame()
@@ -42,13 +45,18 @@ class Address(IBaseModule):
                                              address=row['address'],
                                              address2=row['address2'],
                                              district=row['district'],
-                                             city_bk=row['city_bk'])
+                                             city_bk=row['city_id'])
                     stg_address.format_stg_address()
                     session.add(stg_address)
                     session.commit()
+            except SQLAlchemyError as sql_ex:
+                logging.error(sql_ex)
+                session.rollback()
+                return None
             except Exception as ex:
                 logging.error(ex)
                 session.rollback()
+                return None
         return df
 
     @classmethod
@@ -65,7 +73,7 @@ class Address(IBaseModule):
         return dim
 
     @classmethod
-    def load_dim(cls) -> pd.DataFrame:
+    def load_dim(cls) -> pd.DataFrame | None:
         list_dim_address = cls.load_dim_from_db()
 
         engine, session_context = get_connection()
@@ -100,14 +108,20 @@ class Address(IBaseModule):
                     city_sk = dim_city.sk if dim_city is not None else cls.INVALID_DATA
 
                     dim_address = DimAddress(city_sk=city_sk,
+                                             bk=stg.bk,
                                              address=stg.address,
                                              address2=stg.address2,
                                              district=stg.district)
                     dim_address.format_address()
                     session.add(dim_address)
                     session.commit()
+            except SQLAlchemyError as sql_ex:
+                logging.error(sql_ex)
+                session.rollback()
+                return None
             except Exception as ex:
                 logging.error(ex)
                 session.rollback()
+                return None
         return df
     

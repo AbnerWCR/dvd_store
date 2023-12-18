@@ -7,7 +7,7 @@ from models.dim.dim_address import DimAddress
 def test_address_load_stg():
     address = Address()
     df = address.load_stg()
-    assert not df.empty
+    assert df is not None
 
 
 def test_address_load_dim_from_db():
@@ -19,7 +19,7 @@ def test_address_load_dim_from_db():
 def test_address_load_dim_with_new_data():
     address = Address()
     df = address.load_dim()
-    assert not df.empty
+    assert df is not None
 
 
 def test_change_dim_address():

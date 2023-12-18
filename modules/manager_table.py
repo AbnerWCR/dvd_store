@@ -38,21 +38,20 @@ def create_tables():
 
 
 def set_default_invalid_data():
-    import models.dim.dim_actor
-    import models.dim.dim_address
-    import models.dim.dim_category
-    import models.dim.dim_city
-    import models.dim.dim_customer
-    import models.dim.dim_country
-    import models.dim.dim_film
-    import models.dim.dim_language
-    import models.dim.dim_store
-    import models.fact.fact_payment
+    import models.dim.dim_actor as actor
+    import models.dim.dim_address as address
+    import models.dim.dim_category as category
+    import models.dim.dim_city as city
+    import models.dim.dim_customer as customer
+    import models.dim.dim_country as country
+    import models.dim.dim_film as film
+    import models.dim.dim_language as language
+    import models.dim.dim_store as store
 
     engine, session_context = get_connection()
     with session_context() as session:
         try:
-            session.add()
+            pass
         except ExceptionContext as ex:
             logging.error(ex)
         except Exception as e:
